@@ -8,9 +8,12 @@ public class handContact : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+			
+		
 		isContact = false;
 	
 	}
+		
 	void OnCollisionEnter(Collision boom)
 	{		
 		//Debug.Log("Right/Left collision happened");

@@ -3,27 +3,32 @@ using System.Collections;
 
 public class Spawnscript : MonoBehaviour {
 	
-	public Transform player;
-	public Transform ball;
-	public static Vector3 offset = new Vector3(-7,0,1.35F);
+	public Transform player1, player2;
+	//public Transform ball;
+	public static Vector3 offset = new Vector3(-1.5F,0,1F);
 	
 	void OnServerInitialized()
 	{
-		SpawnPlayer();
+		SpawnPlayer1();
 		
 	}
 	
 	void OnConnectedToServer()
 	{
 		transform.position += offset;
-		SpawnPlayer();
+		SpawnPlayer2();
 		//Debug.Log("Sunil shows");
 	}
 	
 	
-	void SpawnPlayer(){
-		Network.Instantiate(player, transform.position, transform.rotation,0);
-		Network.Instantiate(ball, transform.position - new Vector3(0,0,1F), transform.rotation,0);
+	void SpawnPlayer1(){
+		Network.Instantiate(player1, transform.position, transform.rotation,0);
+		//Network.Instantiate(ball, transform.position - new Vector3(0,0,1F), transform.rotation,0);
+	}
+
+	void SpawnPlayer2(){
+		Network.Instantiate(player2, transform.position, transform.rotation,0);
+		//Network.Instantiate(ball, transform.position - new Vector3(0,0,1F), transform.rotation,0);
 	}
 	
 	void OnPlayerDisconnected(NetworkPlayer player)

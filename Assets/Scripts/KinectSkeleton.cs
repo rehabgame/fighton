@@ -11,8 +11,8 @@ public class KinectSkeleton : MonoBehaviour
     IntPtr[] trackerDataPointer = new IntPtr[24];
     TrackerData[] trackerData = new TrackerData[24];
 
-    public static Transform[] markers = new Transform[24];
-    public static Transform[] limbs = new Transform[19];
+    public Transform[] markers = new Transform[24];
+    public Transform[] limbs = new Transform[19];
     
 	public float[] jointConfidence = new float[24];
 	
