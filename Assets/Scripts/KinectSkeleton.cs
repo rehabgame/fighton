@@ -11,8 +11,8 @@ public class KinectSkeleton : MonoBehaviour
     IntPtr[] trackerDataPointer = new IntPtr[24];
     TrackerData[] trackerData = new TrackerData[24];
 
-    public Transform[] markers = new Transform[24];
-    public Transform[] limbs = new Transform[19];
+    public static Transform[] markers = new Transform[24];
+    public static Transform[] limbs = new Transform[19];
     
 	public float[] jointConfidence = new float[24];
 	
@@ -105,21 +105,21 @@ public class KinectSkeleton : MonoBehaviour
             markers[1] = transform.FindChild("Markers/MarkerNeck");
             markers[0] = transform.FindChild("Markers/MarkerHead");
 		
-			markers[4] = transform.FindChild("Markers/MarkerLeftElbow");
+			markers[4] = transform.FindChild("Markers/MarkerNeck");
             markers[5] = transform.FindChild("Markers/MarkerLeftShoulder");
             markers[6] = transform.FindChild("Markers/MarkerLeftElbow");
             markers[7] = transform.FindChild("Markers/MarkerLeftWrist");
             markers[8] = transform.FindChild("Markers/MarkerLeftHand");
 			
-			markers[9] = transform.FindChild("Markers/MarkerLeftElbow");
-			markers[10] = transform.FindChild("Markers/MarkerLeftElbow");
+			markers[9] = transform.FindChild("Markers/MarkerNeck");
+			markers[10] = transform.FindChild("Markers/MarkerNeck");
 		
             markers[11] = transform.FindChild("Markers/MarkerRightShoulder");
             markers[12] = transform.FindChild("Markers/MarkerRightElbow");
             markers[13] = transform.FindChild("Markers/MarkerRightWrist");
             markers[14] = transform.FindChild("Markers/MarkerRightHand");
 		
-			markers[15] = transform.FindChild("Markers/MarkerLeftElbow");
+			markers[15] = transform.FindChild("Markers/MarkerNeck");
 
             markers[16] = transform.FindChild("Markers/MarkerLeftHip");
             markers[17] = transform.FindChild("Markers/MarkerLeftKnee");

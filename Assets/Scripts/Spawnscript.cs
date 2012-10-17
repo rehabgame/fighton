@@ -23,7 +23,7 @@ public class Spawnscript : MonoBehaviour {
 	
 	void SpawnPlayer(){
 		Network.Instantiate(player, transform.position, transform.rotation,0);
-		Network.Instantiate(ball, transform.position, transform.rotation,0);
+		Network.Instantiate(ball, transform.position - new Vector3(0,0,1F), transform.rotation,0);
 	}
 	
 	void OnPlayerDisconnected(NetworkPlayer player)

@@ -3,50 +3,72 @@ using System.Collections;
 
 public class Ball : MonoBehaviour 
 {
+	public GameObject placeholder;
+	public GameObject leftHand;
+	public GameObject rightHand;
+	//Physics.gravity = Vector3(0, -1.0, 0);
 	void Start ()
     {
 		if(!networkView.isMine)
 			enabled = false;
+		
+		leftHand = GameObject.Find("Markers/MarkerLeftHand");
+		rightHand = GameObject.Find("Markers/MarkerRightHand");
+		
 	}
 	
 	void OnCollisionEnter(Collision collision)
 	{
+		
+		placeholder = collision.contacts[0].otherCollider.gameObject;
+		Debug.Log(placeholder.transform.position);
 				
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Plane"))
+		if(placeholder.tag.Equals("Plane"))
 		{
 			
 			rigidbody.AddForce(0,150,0); 
 			//Debug.Log("Collided with plaNE");
 		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Left Hand"))
+		if(placeholder.tag.Equals("Left Hand"))
 		{
-			rigidbody.AddForce(Vector3.right * 200); 
+			
+			//rigidbody.AddForce(Vector3.right * 200); 
 			Debug.Log("Collided with left hand");
+			transform.parent = leftHand.transform;
+			rigidbody.isKinematic = true;
+			transform.position = leftHand.transform.position + new Vector3(0,0,0.1F); 
+			transform.rotation = leftHand.transform.rotation;
 			
 		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Right Hand"))
+		if(placeholder.tag.Equals("Right Hand"))
 		{
-			rigidbody.AddForce(-Vector3.right * 200); 
+			//rigidbody.AddForce(-Vector3.right * 200); 
 			Debug.Log("Collided with right hand");
+			transform.parent = rightHand.transform;
+			rigidbody.isKinematic = true;
+			transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
+			transform.rotation = rightHand.transform.rotation;
 			
 		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Foot"))
+		if(placeholder.tag.Equals("Foot"))
 		{			
-			rigidbody.AddForce(Vector3.forward * 200); 
-			//Debug.Log("Collided with foot");
-			//yield return new WaitForSeconds(3);
+			Debug.Log("Collided with FOOT");
+			transform.parent = rightHand.transform;
+			rigidbody.isKinematic = true;
+			transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
+			transform.rotation = rightHand.transform.rotation;
 			
 		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Player"))
+		/*if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Player"))
 		{
 			//yield return new WaitForSeconds(2);
-			rigidbody.AddForce(0,10,0); 
+			//rigidbody.AddForce(0,10,0); 
 			Debug.Log("Collided with player");
-		}
+		}*/
 		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Front Wall"))
 		{
 			
-			rigidbody.AddForce(0,0,-150F); 
+			rigidbody.AddForce(0,0,-400F); 
 			//Debug.Log("Collided with plaNE");
 		}
 		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Back Wall"))
@@ -68,6 +90,35 @@ public class Ball : MonoBehaviour
 			//Debug.Log("Collided with plaNE");
 		}
 	}
+		
+	void Update()
+	{
+		if(handContact.isContact == true)
+		{
+						
+			if(transform.parent == leftHand.transform)
+			{
+				rigidbody.isKinematic = false;
+				transform.parent = rightHand.transform;
+				transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
+				transform.rotation = rightHand.transform.rotation;
+				handContact.isContact = false;
+				rigidbody.isKinematic = true;
+			}
+			else if(transform.parent == rightHand.transform)
+			{
+				rigidbody.isKinematic = false;
+				transform.parent = leftHand.transform;
+				transform.position = leftHand.transform.position + new Vector3(0,0,0.1F); 
+				transform.rotation = leftHand.transform.rotation;
+				handContact.isContact = false;
+				rigidbody.isKinematic = true;
+			}			
+			
+		}
+		
+	}
+		
 		
 		
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
