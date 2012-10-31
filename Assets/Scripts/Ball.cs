@@ -3,123 +3,123 @@ using System.Collections;
 
 public class Ball : MonoBehaviour 
 {
-	public GameObject placeholder;
-	public GameObject leftHand;
-	public GameObject rightHand;
+	public static GameObject leftHandP1;
+	public static GameObject rightHandP1;
+	public static GameObject leftHandP2;
+	public static GameObject rightHandP2;
+	public GameObject traveler;
+	private bool touchLeftP1;
+	private bool touchRightP1;
+	private bool touchLeftP2;
+	private bool touchRightP2;
+	
 	//Physics.gravity = Vector3(0, -1.0, 0);
 	void Start ()
     {
 		if(!networkView.isMine)
 			enabled = false;
 		
-		leftHand = GameObject.Find("Markers/MarkerLeftHand");
-		rightHand = GameObject.Find("Markers/MarkerRightHand");
+		touchLeftP1 = false;
+	    touchRightP1 = false;
+	    touchLeftP2 = false;
+	    touchRightP2 = false;
 		
+	}
+
+	
+	void OnTriggerEnter(Collider touch)
+	{
+		//Debug.Log("TRIGGER ENTER");
+		//Debug.Log (touch);
+		if(touch.gameObject.Equals(leftHandP1))
+		{
+			
+			touchLeftP1 = true;
+	
+		}
+		if(touch.gameObject.Equals(rightHandP1))
+		{
+			//Debug.Log ("P1 just touched you with his RAIIIIIGHT hand");
+			touchRightP1 = true;
+		
+		}
+		if(touch.gameObject.Equals(leftHandP2))
+		{
+			touchLeftP2 = true;
+	
+		}
+		if(touch.gameObject.Equals(rightHandP2))
+		{
+			touchRightP2 = true;
+		
+		}
+		if(touch.gameObject.name.Equals("traveler"))
+		{
+			//make traveler the parent
+			collider.isTrigger = false;
+			rigidbody.isKinematic = true;
+			transform.parent = null;
+			transform.position = traveler.transform.position + new Vector3(0,0.3F,0);
+			transform.rotation = traveler.transform.rotation;
+			transform.parent = traveler.transform;
+			collider.isTrigger = true;
+			//transform.position = traveler.transform.position + new Vector3(0,0.1F,0); 
+			
+		}
+		if(touch.gameObject.name.Equals("Ground"))
+		{
+			rigidbody.AddForce(Vector3.up * 10);
+			//rigidbody.isKinematic = true;
+		}
 	}
 	
-	void OnCollisionEnter(Collision collision)
+	void OnTriggerStay(Collider touching)
 	{
+		//Debug.Log ("Trigger stay");
+		if(touchLeftP1 && touchRightP1)
+		{
+			//Debug.Log("PARENTED P1");
+			//make the ball a child of left hand P1
+			transform.parent = leftHandP1.transform;
+			rigidbody.isKinematic = true;
+			transform.position = leftHandP1.transform.position + new Vector3(0,0,0.1F); 
+			transform.rotation = leftHandP1.transform.rotation;
+			//Debug.Log("I caught this");
+			
+		}
 		
-		placeholder = collision.contacts[0].otherCollider.gameObject;
-		Debug.Log(placeholder.transform.position);
-				
-		if(placeholder.tag.Equals("Plane"))
+		
+		if(touchLeftP2 && touchRightP2)
 		{
-			
-			rigidbody.AddForce(0,150,0); 
-			//Debug.Log("Collided with plaNE");
-		}
-		if(placeholder.tag.Equals("Left Hand"))
-		{
-			
-			//rigidbody.AddForce(Vector3.right * 200); 
-			Debug.Log("Collided with left hand");
-			transform.parent = leftHand.transform;
+			//Debug.Log("PARENTED P2");
+			//make the ball a child of left hand P2
+			transform.parent = leftHandP2.transform;
 			rigidbody.isKinematic = true;
-			transform.position = leftHand.transform.position + new Vector3(0,0,0.1F); 
-			transform.rotation = leftHand.transform.rotation;
-			
-		}
-		if(placeholder.tag.Equals("Right Hand"))
-		{
-			//rigidbody.AddForce(-Vector3.right * 200); 
-			Debug.Log("Collided with right hand");
-			transform.parent = rightHand.transform;
-			rigidbody.isKinematic = true;
-			transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
-			transform.rotation = rightHand.transform.rotation;
-			
-		}
-		if(placeholder.tag.Equals("Foot"))
-		{			
-			Debug.Log("Collided with FOOT");
-			transform.parent = rightHand.transform;
-			rigidbody.isKinematic = true;
-			transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
-			transform.rotation = rightHand.transform.rotation;
-			
-		}
-		/*if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Player"))
-		{
-			//yield return new WaitForSeconds(2);
-			//rigidbody.AddForce(0,10,0); 
-			Debug.Log("Collided with player");
-		}*/
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Front Wall"))
-		{
-			
-			rigidbody.AddForce(0,0,-400F); 
-			//Debug.Log("Collided with plaNE");
-		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Back Wall"))
-		{
-			
-			rigidbody.AddForce(0,0,400F); 
-			//Debug.Log("Collided with plaNE");
-		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Left Wall"))
-		{
-			
-			rigidbody.AddForce(150F,0,0); 
-			//Debug.Log("Collided with plaNE");
-		}
-		if(collision.contacts[0].otherCollider.gameObject.tag.Equals("Right Wall"))
-		{
-			
-			rigidbody.AddForce(-150F,0,0); 
-			//Debug.Log("Collided with plaNE");
+			transform.position = leftHandP2.transform.position + new Vector3(0,0,0.1F); 
+			transform.rotation = leftHandP2.transform.rotation;
 		}
 	}
-		
-	void Update()
+	void OnTriggerExit(Collider noTouch)
 	{
-		if(handContact.isContact == true)
+		//Debug.Log ("Trigger exit");
+	
+		if(noTouch.gameObject.Equals(rightHandP1))
 		{
-						
-			if(transform.parent == leftHand.transform)
-			{
-				rigidbody.isKinematic = false;
-				transform.parent = rightHand.transform;
-				transform.position = rightHand.transform.position + new Vector3(0,0,0.1F); 
-				transform.rotation = rightHand.transform.rotation;
-				handContact.isContact = false;
-				rigidbody.isKinematic = true;
-			}
-			else if(transform.parent == rightHand.transform)
-			{
-				rigidbody.isKinematic = false;
-				transform.parent = leftHand.transform;
-				transform.position = leftHand.transform.position + new Vector3(0,0,0.1F); 
-				transform.rotation = leftHand.transform.rotation;
-				handContact.isContact = false;
-				rigidbody.isKinematic = true;
-			}			
-			
+			touchRightP1 = false;
+			transform.parent = null;
+			//rigidbody.isKinematic = false;
+		
 		}
+
+		if(noTouch.gameObject.Equals(rightHandP2))
+		{
+			touchRightP2 = false;
+			transform.parent = null;
+			//rigidbody.isKinematic = false;
 		
-	}
-		
-		
+		}
+
+	}		
 		
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
 	{

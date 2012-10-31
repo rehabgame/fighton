@@ -19,6 +19,8 @@ public class KinectSkeleton : MonoBehaviour
 	public Transform[] jointSend = new Transform[24];
     bool initialized = false;
 	
+	//public static bool NWV = false;
+	
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct TrackerData
     {
@@ -49,7 +51,10 @@ public class KinectSkeleton : MonoBehaviour
 		locateMarkersAndLimbs();
 		
 		if(!networkView.isMine)
+		{
 			enabled = false;
+			//NWV=true;
+		}
 		
         for (int i = 0; i < 24; i++)
         {
