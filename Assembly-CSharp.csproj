@@ -47,11 +47,13 @@
      <Compile Include="Assets\Scripts\Ball.cs" />
      <Compile Include="Assets\Scripts\CubeFalling.cs" />
      <Compile Include="Assets\Scripts\KinectSkeleton.cs" />
+     <Compile Include="Assets\Scripts\KinectSkeletonAlt.cs" />
      <Compile Include="Assets\Scripts\MPBase.cs" />
      <Compile Include="Assets\Scripts\Spawnscript.cs" />
      <Compile Include="Assets\Scripts\TrackerManager.cs" />
      <Compile Include="Assets\Scripts\conveyorScript.cs" />
      <Compile Include="Assets\Scripts\gestureScript.cs" />
+     <Compile Include="Assets\Scripts\poseScript.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />

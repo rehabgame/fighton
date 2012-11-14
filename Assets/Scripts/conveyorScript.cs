@@ -14,6 +14,7 @@ public class conveyorScript : MonoBehaviour
 	void Start () 
 	{
 		
+		
 		moveRight = true; //to starts some initial motion
 		moveLeft = false;
 	
@@ -22,7 +23,8 @@ public class conveyorScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		//Debug.Log("wha whaaat");
+
 		if(moveRight)
 		{
 			transform.Translate(Vector3.left * 0.01F);
@@ -55,8 +57,9 @@ public class conveyorScript : MonoBehaviour
 		Quaternion tempRot = Quaternion.identity;
 			
 			
-		if(Network.isServer)
+		if((Network.isServer)&&(stream.isWriting))
 		{	
+			//Debug.Log("Hellow");
 										
 			tempPos = transform.position;
 			tempRot = transform.rotation;
@@ -65,7 +68,7 @@ public class conveyorScript : MonoBehaviour
 			stream.Serialize(ref tempRot);
 					
 		}
-		else
+		else if(Network.isClient)
 		{
 						
 			stream.Serialize(ref  tempPos);

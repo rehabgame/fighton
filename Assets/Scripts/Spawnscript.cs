@@ -3,9 +3,31 @@ using System.Collections;
 
 public class Spawnscript : MonoBehaviour {
 	
-	public Transform player1, player2;
+	public Transform player1;
+	public Transform player2;
 	//public Transform ball;
-	public static Vector3 offset = new Vector3(-5F,0,-0.5F);
+	public static Vector3 offset = new Vector3(-6F,0,0.25F);
+	
+	void Update()
+	{
+		if(Network.isServer)
+		{
+			if((GameObject.Find("KinectTracker 1 2(Clone)"))!=null)
+			{
+				Ball.leftHandP2 = GameObject.Find("KinectTracker 1 2(Clone)/Markers/MarkerLeftHand");
+				Ball.rightHandP2 = GameObject.Find("KinectTracker 1 2(Clone)/Markers/MarkerRightHand");
+			}
+		}
+		
+		if(Network.isClient)
+		{
+			if((GameObject.Find("KinectTracker 1 1(Clone)"))!=null)
+			{
+				Ball.leftHandP1 = GameObject.Find("KinectTracker 1 1(Clone)/Markers/MarkerLeftHand");
+				Ball.rightHandP1 = GameObject.Find("KinectTracker 1 1(Clone)/Markers/MarkerRightHand");
+			}
+		}
+	}
 	
 	void OnServerInitialized()
 	{
